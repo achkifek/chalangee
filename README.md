@@ -1,16 +1,16 @@
-# chalangee
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
 typedef struct pile {
-    int sommet;
-    int taille;
-    char pile[100];
+    int sommet;    
+    int taille;    
+    char pile[100]; 
 } pile;
 
+
 pile global_pile = {0, 100, {0}};
+
 
 int my_strlen(const char *str) {
     int count = 0;
@@ -20,6 +20,7 @@ int my_strlen(const char *str) {
     }
     return count;
 }
+
 
 void reverse_string(char *str) {
     char *p1, *p2, temp;
@@ -32,12 +33,15 @@ void reverse_string(char *str) {
     }
 }
 
+
 void reverse_words(char str[]) {
     char *start = str, *end = str, *p;
     int size = my_strlen(str);
 
+   
     reverse_string(str);
 
+    // Reverse each word within the string
     while (*start != '\0') {
         while (*start == ' ') {
             start++;
@@ -56,17 +60,21 @@ void reverse_words(char str[]) {
     }
 }
 
+
 int isempty(pile p) {
     return (p.sommet == 0);
 }
+
 
 int isfull(pile f) {
     return (f.sommet == f.taille);
 }
 
+
 char top(pile p) {
     return p.pile[p.sommet - 1];
 }
+
 
 void pop(pile *p) {
     if (!isempty(*p)) {
@@ -76,51 +84,66 @@ void pop(pile *p) {
     }
 }
 
+
 bool isValid(const char *s) {
-    while (*s != '\0') {
-        if (!isfull(global_pile)) {
+    while (*s != '\0') {  
+        if (!isfull(global_pile)) {  // Check if the global stack is not full
+            // If the current character is an opening bracket, push it onto the stack
             if ((*s == '(') || (*s == '[') || (*s == '{')) {
                 global_pile.pile[(global_pile.sommet)++] = (*s);
-            } else if ((*s == ')') || (*s == ']') || (*s == '}')) {
-                if (!isempty(global_pile)) {
+            }
+           
+            else if ((*s == ')') || (*s == ']') || (*s == '}')) {
+                if (!isempty(global_pile)) {  
+                        
+                    // Check for matching pairs of brackets
                     if ((top(global_pile) == '(' && *s == ')') ||
                         (top(global_pile) == '[' && *s == ']') ||
                         (top(global_pile) == '{' && *s == '}')) {
-                        pop(&global_pile);
+                        pop(&global_pile);  // Pop the top of the stack if a matching pair is found
                     } else {
-                        return false;
+                        return false;  
                     }
                 } else {
-                    return false;
+                    return false;  
                 }
             }
         } else {
-            printf("Stack is full\n");
-            return false;
+            printf("Stack is full\n");  
+            return false; l
         }
-        s++;
+        s++;  
     }
-    return ;
+    return 1;  
 }
 
-int main(void) {
-    char test1[] = "edoc fo esuoH oT emocleW";
 
- char test2[] = "uoy pleh lliw ti ;3 melborp ni noitcnuf siht esU";
- char test3[] = "Hello World";
- char test4[] = "G";
- printf("Before: %s\n", test1);
- reverse_string(test1);
- printf("After: %s\n\n", test1);
- printf("Before: %s\n", test2);
- reverse_string(test2);
- printf("After: %s\n\n", test2);
- printf("Before: %s\n", test3);
- reverse_string(test3);
- printf("After: %s\n\n", test3);
- printf("Before: %s\n", test4);
- reverse_string(test4);
- printf("After: %s\n\n", test4);  printf("Is valid: %d\n", isValid(test4));
+int main(void) {
+    
+    char test1[] = "edoc fo esuoH oT emocleW";
+    char test2[] = "uoy pleh lliw ti ;3 melborp ni noitcnuf siht esU";
+    char test3[] = "Hello World";
+    char test4[] = "G";
+
+    
+    printf("Before: %s\n", test1);
+    reverse_string(test1);
+    printf("After: %s\n\n", test1);
+
+    printf("Before: %s\n", test2);
+    reverse_string(test2);
+    printf("After: %s\n\n", test2);
+
+    printf("Before: %s\n", test3);
+    reverse_string(test3);
+    printf("After: %s\n\n", test3);
+
+    printf("Before: %s\n", test4);
+    reverse_string(test4);
+    printf("After: %s\n\n", test4);
+
+  
+    printf("Is valid: %d\n", isValid(test4));
 
     return 0;
 }
